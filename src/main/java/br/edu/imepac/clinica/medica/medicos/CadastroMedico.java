@@ -2,6 +2,7 @@ package br.edu.imepac.clinica.medica.medicos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -176,6 +177,16 @@ public class CadastroMedico extends JFrame {
             medico.setNome(campoNome.getText());
             medico.setCrm(campoCrm.getText());
             medico.setEspecialidade((Especialidade) campoIdEspcialidade.getSelectedItem());
+
+            try {
+                medicoDao.salvar(medico);
+                JOptionPane.showMessageDialog(null, "Médico cadastrado com sucesso!");
+                campoNome.setText("");
+                campoCrm.setText("");
+                campoIdEspcialidade.setSelectedIndex(0);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao cadastrar médico: " + ex.getMessage());
+            }
         }
 
     }

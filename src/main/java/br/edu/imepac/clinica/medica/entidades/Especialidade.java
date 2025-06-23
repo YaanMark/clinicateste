@@ -28,7 +28,7 @@ public class Especialidade {
 
     @Override
     public String toString() {
-        return nome; // Or return id + " - " + nome; if you want ID visible
+        return nome;
     }
 
 }
