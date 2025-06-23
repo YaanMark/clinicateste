@@ -51,9 +51,6 @@ public class ListarEspecialidade extends JFrame {
         tabelaEspecialidades.setSelectionBackground(Estilo.COR_FOCO_CAMPO);
         tabelaEspecialidades.setSelectionForeground(Color.WHITE);
 
-        // Aplica o renderizador personalizado à coluna de Descrição (coluna de índice 2)
-        TableColumnModel columnModel = tabelaEspecialidades.getColumnModel();
-        columnModel.getColumn(2).setCellRenderer(new TextAreaRenderer());
 
         tabelaEspecialidades.setRowSelectionAllowed(true);
         tabelaEspecialidades.setColumnSelectionAllowed(false);
@@ -107,8 +104,6 @@ public class ListarEspecialidade extends JFrame {
             for (Especialidade e : especialidades) {
                 tableModel.addRow(new Object[]{e.getId(), e.getNome(), e.getDescricao()});
             }
-            // Importante: Após adicionar os dados, force um revalidação e repintura da tabela
-            // para garantir que o renderizador recalcule as alturas das linhas.
             tabelaEspecialidades.revalidate();
             tabelaEspecialidades.repaint();
         } catch (SQLException e) {
@@ -122,61 +117,5 @@ public class ListarEspecialidade extends JFrame {
         SwingUtilities.invokeLater(() -> {
             new ListarEspecialidade().setVisible(true);
         });
-    }
-
-    // --- CLASSE INTERNA TextAreaRenderer ---
-    private class TextAreaRenderer extends JTextArea implements TableCellRenderer {
-
-        public TextAreaRenderer() {
-            setLineWrap(true);
-            setWrapStyleWord(true);
-            setOpaque(true);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
-            if (isSelected) {
-                setForeground(table.getSelectionForeground());
-                setBackground(table.getSelectionBackground());
-            } else {
-                setForeground(table.getForeground());
-                setBackground(table.getBackground());
-            }
-            setFont(table.getFont());
-            setText((value == null) ? "" : value.toString());
-
-            // Calcula a altura ideal com base no conteúdo
-            int fontHeight = getFontMetrics(getFont()).getHeight();
-            // Pega a largura da coluna atual
-            int columnWidth = table.getColumnModel().getColumn(column).getWidth();
-
-            // Se a largura da coluna for 0 (ocorre antes da tabela ser exibida), use um valor padrão
-            if (columnWidth == 0) {
-                columnWidth = 200; // Valor de exemplo, ajuste conforme sua necessidade
-            }
-
-            int preferredHeight = fontHeight; // Altura mínima para uma linha
-            String text = getText();
-            if (text != null && !text.isEmpty()) {
-                FontMetrics fm = getFontMetrics(getFont());
-                int textWidth = fm.stringWidth(text);
-
-                int numLines = (int) Math.ceil((double) textWidth / columnWidth);
-                if (numLines == 0) numLines = 1;
-
-                preferredHeight = Math.max(fontHeight, numLines * fontHeight);
-
-                preferredHeight += 5; // Adiciona um pequeno padding para melhor visualização
-            }
-
-            // Define a altura da linha da tabela se a nova altura for maior que a atual
-            if (table.getRowHeight(row) < preferredHeight) {
-                table.setRowHeight(row, preferredHeight);
-            }
-
-            return this;
-        }
     }
 }

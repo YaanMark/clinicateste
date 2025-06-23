@@ -24,73 +24,68 @@ public class EditarEspecialidade extends JFrame {
     public EditarEspecialidade() {
         super("Editar Especialidade");
 
-        // Configurações básicas da janela
-        setSize(450, 400); // Tamanho da janela
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fecha a aplicação ao fechar a janela
-        setLocationRelativeTo(null); // Centraliza a janela na tela
-        getContentPane().setBackground(Estilo.COR_FUNDO); // Define a cor de fundo do conteúdo da janela
+        setSize(450, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(Estilo.COR_FUNDO);
 
-        // Painel principal com GridBagLayout para flexibilidade
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Estilo.COR_FUNDO); // Cor de fundo do painel
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Margem interna
+        panel.setBackground(Estilo.COR_FUNDO);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(panel);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8); // Espaçamento entre os componentes
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Preenche horizontalmente
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // --- Campo ID ---
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 0; // Linha 0
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         JLabel lblId = new JLabel("ID:");
-        lblId.setForeground(Estilo.COR_TEXTO); // Cor do texto do label
+        lblId.setForeground(Estilo.COR_TEXTO);
         lblId.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         panel.add(lblId, gbc);
 
-        gbc.gridx = 1; // Coluna 1
-        gbc.gridy = 0; // Linha 0
-        txtId = new JTextField(15); // Tamanho preferencial do campo
-        estilizarCampoTexto(txtId); // Aplica o estilo personalizado ao campo
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        txtId = new JTextField(15);
+        estilizarCampoTexto(txtId);
         panel.add(txtId, gbc);
 
-        // --- Campo Nome ---
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 1; // Linha 1
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         JLabel lblNome = new JLabel("Nome:");
         lblNome.setForeground(Estilo.COR_TEXTO);
         lblNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         panel.add(lblNome, gbc);
 
-        gbc.gridx = 1; // Coluna 1
-        gbc.gridy = 1; // Linha 1
+        gbc.gridx = 1;
+        gbc.gridy = 1;
         txtNome = new JTextField(20);
         estilizarCampoTexto(txtNome);
         panel.add(txtNome, gbc);
 
-        // --- Campo Descrição ---
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 2; // Linha 2
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         JLabel lblDescricao = new JLabel("Descrição:");
         lblDescricao.setForeground(Estilo.COR_TEXTO);
         lblDescricao.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         panel.add(lblDescricao, gbc);
 
-        gbc.gridx = 1; // Coluna 1
-        gbc.gridy = 2; // Linha 2
-        gbc.gridwidth = 1; // Ocupa uma coluna
-        gbc.weighty = 0.5; // Permite que a área de texto se expanda verticalmente
-        gbc.fill = GridBagConstraints.BOTH; // Preenche em ambas as direções (horizontal e vertical)
-        txtDescricao = new JTextArea(5, 20); // 5 linhas, 20 colunas
-        txtDescricao.setLineWrap(true); // Quebra de linha automática
-        txtDescricao.setWrapStyleWord(true); // Quebra de linha por palavra
-        estilizarCampoTexto(txtDescricao); // Aplica o estilo personalizado
-        JScrollPane scrollPane = new JScrollPane(txtDescricao); // Adiciona barra de rolagem
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.weighty = 0.5;
+        gbc.fill = GridBagConstraints.BOTH;
+        txtDescricao = new JTextArea(5, 20);
+        txtDescricao.setLineWrap(true);
+        txtDescricao.setWrapStyleWord(true);
+        estilizarCampoTexto(txtDescricao);
+        JScrollPane scrollPane = new JScrollPane(txtDescricao);
         panel.add(scrollPane, gbc);
 
         // --- Painel para os Botões ---
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5)); // Centraliza, 15px de espaço
-        buttonPanel.setBackground(Estilo.COR_FUNDO); // Cor de fundo do painel de botões
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
+        buttonPanel.setBackground(Estilo.COR_FUNDO);
 
 
         btnEditar = new JButton("Editar");
@@ -101,16 +96,15 @@ public class EditarEspecialidade extends JFrame {
         Estilo.estilizarBotao(btnFechar);
         buttonPanel.add(btnFechar);
 
-        // Adiciona o painel de botões ao painel principal
+
         gbc.gridx = 0;
-        gbc.gridy = 3; // Posição abaixo da descrição
-        gbc.gridwidth = 2; // Ocupa duas colunas
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Para que o buttonPanel ocupe a largura
-        gbc.weighty = 0; // Reseta o peso vertical
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weighty = 0;
         panel.add(buttonPanel, gbc);
 
 
-        // --- Ações dos Botões ---
                 btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,8 +138,6 @@ public class EditarEspecialidade extends JFrame {
             }
         });
     }
-
-    // --- Métodos para os botões ---
 
     private void acaoBotaoEditar() {
 
@@ -181,8 +173,7 @@ public class EditarEspecialidade extends JFrame {
     }
 
     private void fecharAplicacao() {
-        this.dispose(); // Libera os recursos da janela
-        System.exit(0); // Encerra a aplicação Java completamente
+        this.dispose();
     }
 
     private boolean validarDadosObrigatorios() {
