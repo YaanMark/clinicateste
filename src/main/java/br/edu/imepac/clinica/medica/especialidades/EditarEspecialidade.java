@@ -24,9 +24,10 @@ public class EditarEspecialidade extends JFrame {
     public EditarEspecialidade() {
         super("Editar Especialidade");
 
-        setSize(450, 400);
+        setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setBackground(Estilo.COR_FUNDO);
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -35,94 +36,113 @@ public class EditarEspecialidade extends JFrame {
         add(panel);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 10, 8, 10);
 
+        JLabel lblId = new JLabel("ID da Especialidade:");
+        lblId.setForeground(Estilo.COR_TEXTO);
+        lblId.setFont(new Font("Segoe UI", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        JLabel lblId = new JLabel("ID:");
-        lblId.setForeground(Estilo.COR_TEXTO);
-        lblId.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblId, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        txtId = new JTextField(15);
+        txtId = new JTextField(25);
         estilizarCampoTexto(txtId);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtId, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        JLabel lblNome = new JLabel("Nome:");
+        JLabel lblNome = new JLabel("Nome da Especialidade:");
         lblNome.setForeground(Estilo.COR_TEXTO);
-        lblNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblNome.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblNome, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        txtNome = new JTextField(20);
+        txtNome = new JTextField(25);
         estilizarCampoTexto(txtNome);
-        panel.add(txtNome, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        JLabel lblDescricao = new JLabel("Descrição:");
-        lblDescricao.setForeground(Estilo.COR_TEXTO);
-        lblDescricao.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        panel.add(lblDescricao, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        gbc.weighty = 0.5;
-        gbc.fill = GridBagConstraints.BOTH;
-        txtDescricao = new JTextArea(5, 20);
-        txtDescricao.setLineWrap(true);
-        txtDescricao.setWrapStyleWord(true);
-        estilizarCampoTexto(txtDescricao);
-        JScrollPane scrollPane = new JScrollPane(txtDescricao);
-        panel.add(scrollPane, gbc);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
-        buttonPanel.setBackground(Estilo.COR_FUNDO);
-
-
-        btnEditar = new JButton("Editar");
-        Estilo.estilizarBotao(btnEditar);
-        buttonPanel.add(btnEditar);
-
-        btnFechar = new JButton("Fechar");
-        Estilo.estilizarBotao(btnFechar);
-        buttonPanel.add(btnFechar);
-
-
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(txtNome, gbc);
+
+        JLabel lblDescricao = new JLabel("Descrição:");
+        lblDescricao.setForeground(Estilo.COR_TEXTO);
+        lblDescricao.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(lblDescricao, gbc);
+
+        txtDescricao = new JTextArea(4, 25);
+        txtDescricao.setLineWrap(true);
+        txtDescricao.setWrapStyleWord(true);
+        estilizarCampoTexto(txtDescricao);
+        JScrollPane scrollPane = new JScrollPane(txtDescricao);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Estilo.COR_BORDA_BOTAO, 1));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        txtDescricao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                scrollPane.setBorder(BorderFactory.createLineBorder(Estilo.COR_FOCO_CAMPO, 2));
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                scrollPane.setBorder(BorderFactory.createLineBorder(Estilo.COR_BORDA_BOTAO, 1));
+            }
+        });
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        panel.add(scrollPane, gbc);
+
+        gbc.weightx = 0;
         gbc.weighty = 0;
-        panel.add(buttonPanel, gbc);
+        gbc.fill = GridBagConstraints.NONE;
 
-
-                btnEditar.addActionListener(new ActionListener() {
+        btnEditar = new JButton("Editar");
+        Estilo.estilizarBotao(btnEditar);
+        btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 acaoBotaoEditar();
             }
         });
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add(btnEditar, gbc);
 
+        btnFechar = new JButton("Fechar");
+        Estilo.estilizarBotao(btnFechar);
         btnFechar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fecharAplicacao();
             }
         });
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(btnFechar, gbc);
     }
+
     private void estilizarCampoTexto(JTextComponent comp) {
         comp.setBackground(Estilo.COR_BOTOES);
         comp.setForeground(Estilo.COR_TEXTO);
         comp.setCaretColor(Estilo.COR_TEXTO);
-        comp.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        comp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         comp.setBorder(new LineBorder(Estilo.COR_BORDA_BOTAO, 1));
 
         comp.addFocusListener(new FocusAdapter() {
@@ -139,12 +159,16 @@ public class EditarEspecialidade extends JFrame {
     }
 
     private void acaoBotaoEditar() {
-
         if (validarDadosObrigatorios()) {
             Especialidade especialidade = new Especialidade();
             especialidade.setNome(txtNome.getText());
             especialidade.setDescricao(txtDescricao.getText());
-            especialidade.setId(Integer.parseInt(txtId.getText()));
+            try {
+                especialidade.setId(Integer.parseInt(txtId.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "ID inválido. Por favor, insira um número para o ID.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             try {
                 EspecialidadeDao especialidadeDao = new EspecialidadeDao();
@@ -160,15 +184,13 @@ public class EditarEspecialidade extends JFrame {
                         "Erro de Banco de Dados",
                         JOptionPane.ERROR_MESSAGE);
             }
-
-        }else {
+        } else {
             JOptionPane.showMessageDialog(
                     this,
                     "Todos os campos são obrigatórios",
                     "Dados Incompletos",
                     JOptionPane.WARNING_MESSAGE);
         }
-
     }
 
     private void fecharAplicacao() {
@@ -176,12 +198,11 @@ public class EditarEspecialidade extends JFrame {
     }
 
     private boolean validarDadosObrigatorios() {
-        boolean idPreenchido = !txtDescricao.getText().trim().isEmpty();
+        boolean idPreenchido = !txtId.getText().trim().isEmpty();
         boolean nomePreenchido = !txtNome.getText().trim().isEmpty();
         boolean descricaoPreenchida = !txtDescricao.getText().trim().isEmpty();
         return nomePreenchido && descricaoPreenchida && idPreenchido;
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

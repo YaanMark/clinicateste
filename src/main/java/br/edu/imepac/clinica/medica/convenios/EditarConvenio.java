@@ -36,20 +36,18 @@ public class EditarConvenio extends JFrame {
         add(panel);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 10, 8, 10); // Consistent insets
+        gbc.insets = new Insets(8, 10, 8, 10);
 
-        // ID Label
-        JLabel lblId = new JLabel("ID do Convênio:"); // Changed label text for consistency
+        JLabel lblId = new JLabel("ID do Convênio:");
         lblId.setForeground(Estilo.COR_TEXTO);
-        lblId.setFont(new Font("Segoe UI", Font.BOLD, 14)); // Bold font for labels
+        lblId.setFont(new Font("Segoe UI", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2; // Span across two columns
+        gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblId, gbc);
 
-        // ID Text Field
-        txtId = new JTextField(25); // Adjusted size
+        txtId = new JTextField(25);
         estilizarCampoTexto(txtId);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -57,8 +55,7 @@ public class EditarConvenio extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtId, gbc);
 
-        // Nome Label
-        JLabel lblNome = new JLabel("Nome do Convênio:"); // Consistent label text
+        JLabel lblNome = new JLabel("Nome do Convênio:");
         lblNome.setForeground(Estilo.COR_TEXTO);
         lblNome.setFont(new Font("Segoe UI", Font.BOLD, 14));
         gbc.gridx = 0;
@@ -67,8 +64,7 @@ public class EditarConvenio extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblNome, gbc);
 
-        // Nome Text Field
-        txtNome = new JTextField(25); // Consistent size
+        txtNome = new JTextField(25);
         estilizarCampoTexto(txtNome);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -76,7 +72,6 @@ public class EditarConvenio extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtNome, gbc);
 
-        // Descrição Label
         JLabel lblDescricao = new JLabel("Descrição:");
         lblDescricao.setForeground(Estilo.COR_TEXTO);
         lblDescricao.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -86,8 +81,7 @@ public class EditarConvenio extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblDescricao, gbc);
 
-        // Descrição Text Area
-        txtDescricao = new JTextArea(4, 25); // Consistent size
+        txtDescricao = new JTextArea(4, 25);
         txtDescricao.setLineWrap(true);
         txtDescricao.setWrapStyleWord(true);
         estilizarCampoTexto(txtDescricao);
@@ -115,7 +109,6 @@ public class EditarConvenio extends JFrame {
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.NONE;
 
-        // Editar Button
         btnEditar = new JButton("Editar");
         Estilo.estilizarBotao(btnEditar);
         btnEditar.addActionListener(new ActionListener() {
@@ -130,7 +123,6 @@ public class EditarConvenio extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         panel.add(btnEditar, gbc);
 
-        // Fechar Button
         btnFechar = new JButton("Fechar");
         Estilo.estilizarBotao(btnFechar);
         btnFechar.addActionListener(new ActionListener() {
@@ -150,19 +142,17 @@ public class EditarConvenio extends JFrame {
         comp.setBackground(Estilo.COR_BOTOES);
         comp.setForeground(Estilo.COR_TEXTO);
         comp.setCaretColor(Estilo.COR_TEXTO);
-        comp.setFont(new Font("Segoe UI", Font.PLAIN, 16)); // Consistent font size
+        comp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         comp.setBorder(new LineBorder(Estilo.COR_BORDA_BOTAO, 1));
 
         comp.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                // For JTextComponent directly, set its border
                 comp.setBorder(new LineBorder(Estilo.COR_FOCO_CAMPO, 2));
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                // For JTextComponent directly, set its border
                 comp.setBorder(new LineBorder(Estilo.COR_BORDA_BOTAO, 1));
             }
         });

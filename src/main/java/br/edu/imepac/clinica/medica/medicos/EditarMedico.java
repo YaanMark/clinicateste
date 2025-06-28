@@ -1,6 +1,5 @@
 package br.edu.imepac.clinica.medica.medicos;
 
-import br.edu.imepac.clinica.medica.especialidades.EditarEspecialidade;
 import br.edu.imepac.clinica.medica.outros.Estilo;
 import br.edu.imepac.clinica.medica.daos.EspecialidadeDao;
 import br.edu.imepac.clinica.medica.daos.MedicoDao;
@@ -30,79 +29,82 @@ public class EditarMedico extends JFrame {
     private MedicoDao medicoDao;
 
     public EditarMedico() {
+        super("Editar Médico");
 
-        super("Editar Medico");
-
-        setSize(500, 350);
+        setSize(500, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setBackground(Estilo.COR_FUNDO);
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(Estilo.COR_FUNDO);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        setResizable(false);
         add(panel);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 10, 8, 10);
 
+        JLabel lblId = new JLabel("ID do Médico:");
+        lblId.setForeground(Estilo.COR_TEXTO);
+        lblId.setFont(new Font("Segoe UI", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        JLabel lblId = new JLabel("ID:");
-        lblId.setForeground(Estilo.COR_TEXTO);
-        lblId.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblId, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        txtId = new JTextField(15);
+        txtId = new JTextField(25);
         estilizarCampoTexto(txtId);
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtId, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        JLabel lblNome = new JLabel("Nome:");
+        JLabel lblNome = new JLabel("Nome do Médico:");
         lblNome.setForeground(Estilo.COR_TEXTO);
-        lblNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.anchor = GridBagConstraints.EAST;
+        lblNome.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblNome, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        txtNome = new JTextField(20);
+        txtNome = new JTextField(25);
         estilizarCampoTexto(txtNome);
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtNome, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
         JLabel labelCrm = new JLabel("CRM:");
         labelCrm.setForeground(Estilo.COR_TEXTO);
-        labelCrm.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.anchor = GridBagConstraints.EAST;
+        labelCrm.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(labelCrm, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        txtCRM = new JTextField(20);
+        txtCRM = new JTextField(25);
         estilizarCampoTexto(txtCRM);
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtCRM, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        JLabel labelIdEspecialidade = new JLabel("Especialidade ID:");
+        JLabel labelIdEspecialidade = new JLabel("Especialidade:");
         labelIdEspecialidade.setForeground(Estilo.COR_TEXTO);
-        labelIdEspecialidade.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.anchor = GridBagConstraints.EAST;
+        labelIdEspecialidade.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(labelIdEspecialidade, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 3;
         listaEspecialidade = new JComboBox<>();
         listaEspecialidade.setBackground(Estilo.COR_BOTOES);
         listaEspecialidade.setForeground(Estilo.COR_TEXTO);
@@ -116,12 +118,15 @@ public class EditarMedico extends JFrame {
                 listaEspecialidade.setBorder(BorderFactory.createLineBorder(Estilo.COR_BORDA_BOTAO, 1));
             }
         });
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(listaEspecialidade, gbc);
 
-        // --- Button Panel ---
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
-        buttonPanel.setBackground(Estilo.COR_FUNDO);
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.fill = GridBagConstraints.NONE;
 
         btnEditar = new JButton("Editar");
         Estilo.estilizarBotao(btnEditar);
@@ -131,7 +136,11 @@ public class EditarMedico extends JFrame {
                 botaoEditar();
             }
         });
-        buttonPanel.add(btnEditar);
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add(btnEditar, gbc);
 
         btnFechar = new JButton("Fechar");
         Estilo.estilizarBotao(btnFechar);
@@ -141,15 +150,11 @@ public class EditarMedico extends JFrame {
                 fecharAplicacao();
             }
         });
-        buttonPanel.add(btnFechar);
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2; // Span across two columns
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weighty = 0;
-        panel.add(buttonPanel, gbc);
-        // --- End Button Panel ---
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(btnFechar, gbc);
 
         inicializarMedicoDao();
         inicializarEpecialidadeDao();
@@ -160,7 +165,7 @@ public class EditarMedico extends JFrame {
         comp.setBackground(Estilo.COR_BOTOES);
         comp.setForeground(Estilo.COR_TEXTO);
         comp.setCaretColor(Estilo.COR_TEXTO);
-        comp.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        comp.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         comp.setBorder(new LineBorder(Estilo.COR_BORDA_BOTAO, 1));
 
         comp.addFocusListener(new FocusAdapter() {
@@ -184,9 +189,7 @@ public class EditarMedico extends JFrame {
                 dispose();
                 return;
             }
-            especialidadesList.forEach(especialidade -> {
-                this.listaEspecialidade.addItem(especialidade);
-            });
+            especialidadesList.forEach(this.listaEspecialidade::addItem);
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(this, "Erro ao buscar especialidades!" + exception.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             System.out.println(exception.getMessage());
@@ -211,15 +214,16 @@ public class EditarMedico extends JFrame {
             dispose();
         }
     }
+
     private boolean validarDadosObrigatorios() {
-        boolean idPreenchido = !txtId.getText().isEmpty();
-        boolean nomePreenchido = !txtNome.getText().isEmpty();
-        boolean crmPreenchido = !txtCRM.getText().isEmpty();
+        boolean idPreenchido = !txtId.getText().trim().isEmpty();
+        boolean nomePreenchido = !txtNome.getText().trim().isEmpty();
+        boolean crmPreenchido = !txtCRM.getText().trim().isEmpty();
         boolean especialidadePreenchida = listaEspecialidade.getSelectedItem() != null;
         return nomePreenchido && crmPreenchido && especialidadePreenchida && idPreenchido;
     }
 
-    private void botaoEditar () {
+    private void botaoEditar() {
         if (validarDadosObrigatorios()) {
             Medico medico = new Medico();
             medico.setNome(txtNome.getText());
