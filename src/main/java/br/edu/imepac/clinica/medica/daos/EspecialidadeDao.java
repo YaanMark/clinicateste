@@ -35,7 +35,7 @@ public class EspecialidadeDao {
             Especialidade e = new Especialidade();
             e.setId(rs.getInt("id"));
             e.setNome(rs.getString("nome"));
-            e.setDescricao(rs.getString("descricao")); // Esta linha já estava correta após a última correção
+            e.setDescricao(rs.getString("descricao"));
             return e;
         }
         return null;
@@ -51,7 +51,7 @@ public class EspecialidadeDao {
             Especialidade e = new Especialidade();
             e.setId(rs.getInt("id"));
             e.setNome(rs.getString("nome"));
-            e.setDescricao(rs.getString("descricao")); // *** Adicione ou certifique-se que esta linha está aqui! ***
+            e.setDescricao(rs.getString("descricao"));
             lista.add(e);
         }
         return lista;
