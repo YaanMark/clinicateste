@@ -2,7 +2,6 @@ package br.edu.imepac.clinica.medica.medicos;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -197,9 +196,9 @@ public class CadastroMedico extends JFrame {
 
     private boolean validarDadosObrigatorios() {
         boolean nomePreenchido = !campoNome.getText().trim().isEmpty();
-        boolean descricaoPreenchida = !campoCrm.getText().trim().isEmpty();
+        boolean crmPreenchida = !campoCrm.getText().trim().isEmpty();
         boolean especialidadeSelecionada = campoIdEspcialidade.getSelectedItem() != null;
-        return nomePreenchido && descricaoPreenchida && especialidadeSelecionada;
+        return nomePreenchido && crmPreenchida && especialidadeSelecionada;
     }
 
     private void inicializarEpecialidadeDao() {

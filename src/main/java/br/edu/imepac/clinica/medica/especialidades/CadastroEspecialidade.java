@@ -29,7 +29,6 @@ public class CadastroEspecialidade extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 10, 8, 10);
 
-        // --- Campo de Nome da Especialidade ---
         JLabel labelNome = new JLabel("Nome da Especialidade:");
         labelNome.setForeground(Estilo.COR_TEXTO);
         labelNome.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -59,7 +58,6 @@ public class CadastroEspecialidade extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         painelPrincipal.add(campoNomeEspecialidade, gbc);
 
-        // --- Campo de Descrição ---
         JLabel labelDescricao = new JLabel("Descrição:");
         labelDescricao.setForeground(Estilo.COR_TEXTO);
         labelDescricao.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -97,7 +95,6 @@ public class CadastroEspecialidade extends JFrame {
         gbc.weighty = 1.0;
         painelPrincipal.add(scrollPane, gbc);
 
-        // --- Botões Salvar e Fechar ---
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.NONE;
