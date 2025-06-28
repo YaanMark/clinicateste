@@ -6,8 +6,6 @@ import br.edu.imepac.clinica.medica.outros.Estilo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,12 +32,11 @@ public class ListarEspecialidade extends JFrame {
             return;
         }
 
-        // Tabela de Especialidades
         String[] colunas = {"ID", "Nome", "Descrição"};
         tableModel = new DefaultTableModel(colunas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Torna as células não editáveis
+                return false;
             }
         };
         tabelaEspecialidades = new JTable(tableModel);
@@ -62,7 +59,6 @@ public class ListarEspecialidade extends JFrame {
 
         carregarEspecialidades();
 
-        // Painel de Botões
         JPanel panelBotoes = new JPanel();
         panelBotoes.setBackground(Estilo.COR_FUNDO);
         panelBotoes.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
@@ -70,21 +66,46 @@ public class ListarEspecialidade extends JFrame {
         JButton btnExcluir = new JButton("Excluir");
         Estilo.estilizarBotao(btnExcluir);
         btnExcluir.addActionListener(e -> {
-            String idString = JOptionPane.showInputDialog(this, "Digite o ID da especialidade para excluir:");
-            if (idString != null && !idString.trim().isEmpty()) {
-                try {
-                    long id = Long.parseLong(idString);
+            int selectedRow = tabelaEspecialidades.getSelectedRow();
+            if (selectedRow >= 0) {
+                // Safely retrieve the ID, handling potential Integer to Long cast
+                Object idObject = tableModel.getValueAt(selectedRow, 0);
+                Long especialidadeId;
+
+                if (idObject instanceof Integer) {
+                    especialidadeId = ((Integer) idObject).longValue();
+                } else if (idObject instanceof Long) {
+                    especialidadeId = (Long) idObject;
+                } else {
+                    // Fallback for other types, e.g., String
                     try {
-                        especialidadeDao.deletar(id);
+                        especialidadeId = Long.parseLong(idObject.toString());
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this, "Erro ao obter ID da especialidade: Formato inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+
+                String especialidadeNome = (String) tableModel.getValueAt(selectedRow, 1);
+
+                int confirmResult = JOptionPane.showConfirmDialog(this,
+                        "Tem certeza que deseja excluir a especialidade: " + especialidadeNome,
+                        "Confirmar Exclusão",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (confirmResult == JOptionPane.YES_OPTION) {
+                    try {
+                        especialidadeDao.deletar(especialidadeId);
                         JOptionPane.showMessageDialog(this, "Especialidade excluída com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        carregarEspecialidades();
+                        carregarEspecialidades(); // Reload data after deletion
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(this, "Erro ao excluir especialidade: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                         ex.printStackTrace();
                     }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "ID inválido. Por favor, digite um número.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, selecione uma especialidade para excluir.", "Nenhuma Seleção", JOptionPane.WARNING_MESSAGE);
             }
         });
         panelBotoes.add(btnExcluir);

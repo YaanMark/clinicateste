@@ -83,7 +83,6 @@ public class EditarEspecialidade extends JFrame {
         JScrollPane scrollPane = new JScrollPane(txtDescricao);
         panel.add(scrollPane, gbc);
 
-        // --- Painel para os Botões ---
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         buttonPanel.setBackground(Estilo.COR_FUNDO);
 
