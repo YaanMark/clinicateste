@@ -70,7 +70,7 @@ public class MedicoDao {
         stmt.executeUpdate();
     }
 
-    public void deletar(int id) throws SQLException {
+    public void deletar(long id) throws SQLException {
         String sql = "DELETE FROM medico WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setLong(1, id);

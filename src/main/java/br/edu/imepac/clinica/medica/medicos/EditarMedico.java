@@ -218,7 +218,7 @@ public class EditarMedico extends JFrame {
 
             try {
                 medicoDao.atualizar(medico);
-                JOptionPane.showMessageDialog(this, "Especialidade atualizada com sucesso!");
+                JOptionPane.showMessageDialog(this, "Médico atualizado com sucesso!");
                 txtId.setText("");
                 txtNome.setText("");
                 txtCRM.setText("");
