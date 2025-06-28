@@ -38,7 +38,6 @@ public class EditarConvenio extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 10, 8, 10);
 
-        // ID Label
         JLabel lblId = new JLabel("ID do Convênio:");
         lblId.setForeground(Estilo.COR_TEXTO);
         lblId.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -48,7 +47,6 @@ public class EditarConvenio extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblId, gbc);
 
-        // ID Text Field
         txtId = new JTextField(25);
         estilizarCampoTexto(txtId);
         gbc.gridx = 0;
@@ -57,7 +55,6 @@ public class EditarConvenio extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtId, gbc);
 
-        // Nome Label
         JLabel lblNome = new JLabel("Nome do Convênio:");
         lblNome.setForeground(Estilo.COR_TEXTO);
         lblNome.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -67,7 +64,6 @@ public class EditarConvenio extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblNome, gbc);
 
-        // Nome Text Field
         txtNome = new JTextField(25);
         estilizarCampoTexto(txtNome);
         gbc.gridx = 0;
@@ -76,7 +72,6 @@ public class EditarConvenio extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(txtNome, gbc);
 
-        // Descrição Label
         JLabel lblDescricao = new JLabel("Descrição:");
         lblDescricao.setForeground(Estilo.COR_TEXTO);
         lblDescricao.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -86,7 +81,6 @@ public class EditarConvenio extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblDescricao, gbc);
 
-        // Descrição Text Area
         txtDescricao = new JTextArea(4, 25);
         txtDescricao.setLineWrap(true);
         txtDescricao.setWrapStyleWord(true);
@@ -159,7 +153,6 @@ public class EditarConvenio extends JFrame {
 
             @Override
             public void focusLost(FocusEvent e) {
-                // For JTextComponent directly, set its border
                 comp.setBorder(new LineBorder(Estilo.COR_BORDA_BOTAO, 1));
             }
         });
