@@ -22,7 +22,7 @@ public class EditarMedico extends JFrame {
     private JTextField txtId;
     private JTextField txtNome;
     private JTextField txtCRM;
-    private JComboBox listaEspecialidade;
+    private JComboBox<Especialidade> listaEspecialidade;
     private JButton btnEditar;
     private JButton btnFechar;
 
@@ -103,7 +103,7 @@ public class EditarMedico extends JFrame {
 
         gbc.gridx = 1;
         gbc.gridy = 3;
-        listaEspecialidade = new JComboBox();
+        listaEspecialidade = new JComboBox<>();
         listaEspecialidade.setBackground(Estilo.COR_BOTOES);
         listaEspecialidade.setForeground(Estilo.COR_TEXTO);
         listaEspecialidade.setBorder(BorderFactory.createLineBorder(Estilo.COR_BORDA_BOTAO));
@@ -119,9 +119,9 @@ public class EditarMedico extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(listaEspecialidade, gbc);
 
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.fill = GridBagConstraints.NONE;
+        // --- Button Panel ---
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
+        buttonPanel.setBackground(Estilo.COR_FUNDO);
 
         btnEditar = new JButton("Editar");
         Estilo.estilizarBotao(btnEditar);
@@ -131,18 +131,29 @@ public class EditarMedico extends JFrame {
                 botaoEditar();
             }
         });
+        buttonPanel.add(btnEditar);
+
+        btnFechar = new JButton("Fechar");
+        Estilo.estilizarBotao(btnFechar);
+        btnFechar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fecharAplicacao();
+            }
+        });
+        buttonPanel.add(btnFechar);
+
         gbc.gridx = 0;
         gbc.gridy = 4;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.EAST;
-        panel.add(btnEditar);
-
+        gbc.gridwidth = 2; // Span across two columns
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weighty = 0;
+        panel.add(buttonPanel, gbc);
+        // --- End Button Panel ---
 
         inicializarMedicoDao();
         inicializarEpecialidadeDao();
         carregarEspecialidades();
-
-
     }
 
     private void estilizarCampoTexto(JTextComponent comp) {
@@ -169,7 +180,7 @@ public class EditarMedico extends JFrame {
         try {
             List<Especialidade> especialidadesList = especialidadeDao.listarTodas();
             if (especialidadesList.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Nenhuma especialidade cadastrada! Cadastre uma especialidade antes de cadastrar um médico.");
+                JOptionPane.showMessageDialog(this, "Nenhuma especialidade cadastrada! Cadastre uma especialidade antes de editar um médico.");
                 dispose();
                 return;
             }
@@ -177,7 +188,7 @@ public class EditarMedico extends JFrame {
                 this.listaEspecialidade.addItem(especialidade);
             });
         } catch (Exception exception) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar especialidades!" + exception.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erro ao buscar especialidades!" + exception.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             System.out.println(exception.getMessage());
             dispose();
         }
@@ -187,7 +198,7 @@ public class EditarMedico extends JFrame {
         try {
             this.especialidadeDao = new EspecialidadeDao();
         } catch (Exception exception) {
-            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados - especialidades!");
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados - especialidades!");
             dispose();
         }
     }
@@ -196,7 +207,7 @@ public class EditarMedico extends JFrame {
         try {
             this.medicoDao = new MedicoDao();
         } catch (Exception exception) {
-            JOptionPane.showMessageDialog(null, "Erro ao inicializar ao banco de dados - médico!");
+            JOptionPane.showMessageDialog(this, "Erro ao inicializar ao banco de dados - médico!");
             dispose();
         }
     }
@@ -213,7 +224,12 @@ public class EditarMedico extends JFrame {
             Medico medico = new Medico();
             medico.setNome(txtNome.getText());
             medico.setCrm(txtCRM.getText());
-            medico.setId(Integer.parseInt(txtId.getText()));
+            try {
+                medico.setId(Integer.parseInt(txtId.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "ID inválido. Por favor, insira um número para o ID.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             medico.setEspecialidade((Especialidade) listaEspecialidade.getSelectedItem());
 
             try {
@@ -226,10 +242,11 @@ public class EditarMedico extends JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(
                         this,
-                        "Erro ao atualizar médico",
+                        "Erro ao atualizar médico: " + e.getMessage(),
                         "Erro de banco de dados",
                         JOptionPane.ERROR_MESSAGE
                 );
+                System.err.println("Erro ao atualizar médico: " + e.getMessage());
             }
         } else {
             JOptionPane.showMessageDialog(
@@ -238,6 +255,10 @@ public class EditarMedico extends JFrame {
                     "Dados Incompletos",
                     JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    private void fecharAplicacao() {
+        this.dispose();
     }
 
     public static void main(String[] args) {
