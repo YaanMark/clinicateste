@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public class CadastroPaciente extends JFrame {
-
     private JTextField campoNome;
     private JTextField campoIdade;
     private JTextField campoSexo;
