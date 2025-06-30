@@ -1,0 +1,27 @@
+# IDE
+.idea/
+*.iml
+
+# Compilados
+/out/
+/target/
+*.class
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Maven
+/logs/
+*.log
+.mvn/
+
+# Backup
+*~
+*.swp
+
+# Windows
+desktop.ini
+
+# OneDrive/Atalhos
+*.lnk
