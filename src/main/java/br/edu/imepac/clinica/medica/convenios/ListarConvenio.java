@@ -37,7 +37,7 @@ public class ListarConvenio extends JFrame {
         tableModel = new DefaultTableModel(colunas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Cells are not editable
+                return false;
             }
         };
         tabelaConvenio = new JTable(tableModel);
@@ -112,7 +112,7 @@ public class ListarConvenio extends JFrame {
     }
 
     private void carregarConvenios() {
-        tableModel.setRowCount(0); // Clear existing rows
+        tableModel.setRowCount(0);
         try {
             List<Convenio> convenios = convenioDao.listar();
             for (Convenio c : convenios) {
