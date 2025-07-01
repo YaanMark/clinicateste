@@ -40,4 +40,9 @@ public class Medico {
         this.especialidadeId = especialidadeId;
     }
 
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+
 }

@@ -236,4 +236,10 @@ public class Perfil {
     public void setListarProntuario(boolean listarProntuario) {
         this.listarProntuario = listarProntuario;
     }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+
 }

@@ -64,4 +64,10 @@ public class Funcionarios {
     }
     public void setIdPerfil(int idPerfil) {this.idPerfil = idPerfil;}
     public void setSenha(String senha) {this.senha = senha;}
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+
 }
