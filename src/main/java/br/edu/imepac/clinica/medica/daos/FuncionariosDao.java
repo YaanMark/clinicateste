@@ -116,4 +116,35 @@ public class FuncionariosDao {
         stmt.setInt(15, funcionarios.getId());
         stmt.executeUpdate();
     }
+
+    public Funcionarios validarLogin(String usuario, String senha) throws SQLException {
+        String sql = "SELECT * FROM funcionario WHERE usuario = ? AND senha = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, usuario);
+        stmt.setString(2, senha);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            Funcionarios f = new Funcionarios();
+            f.setId(rs.getInt("id"));
+            f.setUsuario(rs.getString("usuario"));
+            f.setNome(rs.getString("nome"));
+            f.setIdade(rs.getString("idade"));
+            f.setSexo(rs.getString("sexo"));
+            f.setCpf(rs.getString("cpf"));
+            f.setRua(rs.getString("rua"));
+            f.setBairro(rs.getString("bairro"));
+            f.setCidade(rs.getString("cidade"));
+            f.setEstado(rs.getString("estado"));
+            f.setContato(rs.getString("contato"));
+            f.setEmail(rs.getString("email"));
+            f.setDataNascimento(LocalDate.parse(rs.getString("dataNascimento")));
+            f.setIdPerfil(rs.getInt("id_perfil"));
+            f.setSenha(rs.getString("senha").toCharArray());
+
+            return f;
+        }
+        return null;
+    }
+
 }

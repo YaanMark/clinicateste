@@ -19,13 +19,19 @@ public class ListarMedico extends JFrame {
     private MedicoDao medicoDao;
     private EspecialidadeDao especialidadeDao;
     private Especialidade especialidade;
+    private JFrame parentFrame; // Adicionar campo para a janela pai
 
-    public ListarMedico() {
-        setTitle("Listar especialidade");
-        setSize(800, 800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public ListarMedico(JFrame parentFrame) { // Modificar o construtor para aceitar JFrame
+        this.parentFrame = parentFrame; // Armazenar a referência da janela pai
+
+        setTitle("Listar Medicos");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Alterado para DISPOSE_ON_CLOSE
         setLocationRelativeTo(null);
         setResizable(true);
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+
         setLayout(new BorderLayout());
         getContentPane().setBackground(Estilo.COR_FUNDO);
 
@@ -35,6 +41,8 @@ public class ListarMedico extends JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
+            // Não chame dispose() aqui, pois o construtor ainda está em andamento.
+            // É melhor sair ou desabilitar funcionalidades.
             return;
         }
 
@@ -112,7 +120,12 @@ public class ListarMedico extends JFrame {
 
         JButton botaoFechar = new JButton("Fechar");
         Estilo.estilizarBotao(botaoFechar);
-        botaoFechar.addActionListener(e -> dispose());
+        botaoFechar.addActionListener(e -> {
+            dispose();
+            if (parentFrame != null) {
+                parentFrame.setVisible(true); // Retorna à janela pai se existir
+            }
+        });
         panel.add(botaoFechar);
 
         add(panel, BorderLayout.SOUTH);
@@ -138,7 +151,8 @@ public class ListarMedico extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new ListarMedico().setVisible(true);
+            // Ao executar o main de forma independente, não há janela pai
+            new ListarMedico(null).setVisible(true);
         });
     }
 

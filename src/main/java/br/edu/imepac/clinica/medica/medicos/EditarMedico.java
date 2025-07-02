@@ -27,12 +27,14 @@ public class EditarMedico extends JFrame {
 
     private EspecialidadeDao especialidadeDao;
     private MedicoDao medicoDao;
+    private JFrame parentFrame; // Adicionar campo para a janela pai
 
-    public EditarMedico() {
+    public EditarMedico(JFrame parentFrame) { // Modificar o construtor para aceitar JFrame
         super("Editar Médico");
+        this.parentFrame = parentFrame; // Armazenar a referência da janela pai
 
         setSize(500, 450);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Alterado para DISPOSE_ON_CLOSE
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setBackground(Estilo.COR_FUNDO);
@@ -263,11 +265,15 @@ public class EditarMedico extends JFrame {
 
     private void fecharAplicacao() {
         this.dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true); // Retorna à janela pai se existir
+        }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new EditarMedico().setVisible(true);
+            // Ao executar o main de forma independente, não há janela pai
+            new EditarMedico(null).setVisible(true);
         });
     }
 }
