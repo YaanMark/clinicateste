@@ -21,17 +21,17 @@ public class CadastroMedico extends JFrame {
 
     private EspecialidadeDao especialidadeDao;
     private MedicoDao medicoDao;
-    private JFrame parentFrame; // Adicionar campo para a janela pai
+    private JFrame parentFrame;
 
-    public CadastroMedico(JFrame parentFrame) { // Modificar o construtor para aceitar JFrame
-        this.parentFrame = parentFrame; // Armazenar a referência da janela pai
+    public CadastroMedico(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
 
         inicializarMedicoDao();
         inicializarEpecialidadeDao();
 
         setTitle("Cadastro de Medicos");
         setSize(400, 400);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Alterado para DISPOSE_ON_CLOSE
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -167,7 +167,6 @@ public class CadastroMedico extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                // Ao executar o main de forma independente, não há janela pai
                 new CadastroMedico(null).setVisible(true);
             }
         });
@@ -196,7 +195,7 @@ public class CadastroMedico extends JFrame {
     private void acaoBotaoFechar() {
         dispose();
         if (parentFrame != null) {
-            parentFrame.setVisible(true); // Retorna à janela pai se existir
+            parentFrame.setVisible(true);
         }
     }
 

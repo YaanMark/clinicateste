@@ -19,13 +19,13 @@ public class ListarMedico extends JFrame {
     private MedicoDao medicoDao;
     private EspecialidadeDao especialidadeDao;
     private Especialidade especialidade;
-    private JFrame parentFrame; // Adicionar campo para a janela pai
+    private JFrame parentFrame;
 
-    public ListarMedico(JFrame parentFrame) { // Modificar o construtor para aceitar JFrame
-        this.parentFrame = parentFrame; // Armazenar a referência da janela pai
+    public ListarMedico(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
 
         setTitle("Listar Medicos");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Alterado para DISPOSE_ON_CLOSE
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(true);
 
@@ -41,8 +41,6 @@ public class ListarMedico extends JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
-            // Não chame dispose() aqui, pois o construtor ainda está em andamento.
-            // É melhor sair ou desabilitar funcionalidades.
             return;
         }
 
@@ -123,7 +121,7 @@ public class ListarMedico extends JFrame {
         botaoFechar.addActionListener(e -> {
             dispose();
             if (parentFrame != null) {
-                parentFrame.setVisible(true); // Retorna à janela pai se existir
+                parentFrame.setVisible(true);
             }
         });
         panel.add(botaoFechar);
@@ -151,7 +149,6 @@ public class ListarMedico extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // Ao executar o main de forma independente, não há janela pai
             new ListarMedico(null).setVisible(true);
         });
     }

@@ -15,10 +15,14 @@ public class CadastroEspecialidade extends JFrame {
     private JButton botaoSalvar;
     private JButton botaoFechar;
 
-    public CadastroEspecialidade() {
+    private JFrame parentFrame;
+
+    public CadastroEspecialidade(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
         setTitle("Cadastrar Especialidade");
         setSize(500, 350);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -160,13 +164,16 @@ public class CadastroEspecialidade extends JFrame {
 
     private void acaoBotaoFechar() {
         dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
+        }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CadastroEspecialidade().setVisible(true);
+                new CadastroEspecialidade(null).setVisible(true);
             }
         });
     }

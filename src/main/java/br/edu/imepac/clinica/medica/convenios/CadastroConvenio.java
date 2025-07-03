@@ -14,11 +14,14 @@ public class CadastroConvenio extends JFrame {
     private JTextArea campoDescricao;
     private JButton botaoSalvar;
     private JButton botaoFechar;
+    private JFrame parentFrame;
 
-    public CadastroConvenio() {
+    public CadastroConvenio(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
         setTitle("Cadastrar Convênio");
         setSize(500, 350);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         JPanel painelPrincipal = new JPanel();
@@ -159,13 +162,16 @@ public class CadastroConvenio extends JFrame {
 
     private void acaoBotaoFechar() {
         dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
+        }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CadastroConvenio().setVisible(true);
+                new CadastroConvenio(null).setVisible(true);
             }
         });
     }

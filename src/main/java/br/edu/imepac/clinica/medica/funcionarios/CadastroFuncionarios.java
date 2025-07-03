@@ -38,15 +38,17 @@ public class CadastroFuncionarios extends JFrame {
 
     private FuncionariosDao funcionariosDao;
     private PerfilDao perfilDao;
+    private JFrame parentFrame;
 
-    public CadastroFuncionarios() {
+    public CadastroFuncionarios(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
 
         inicializarFuncionarioDao();
         inicializarPerfilDao();
 
         setTitle("Cadastro de Funcionários");
         setSize(700, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
@@ -236,7 +238,7 @@ public class CadastroFuncionarios extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         botaoFechar = new JButton("Fechar");
         Estilo.estilizarBotao(botaoFechar);
-        botaoFechar.addActionListener(e -> dispose());
+        botaoFechar.addActionListener(e -> acaoBotaoFechar());
         panel.add(botaoFechar, gbc);
 
         add(panel);
@@ -332,8 +334,6 @@ public class CadastroFuncionarios extends JFrame {
             try {
                 funcionariosDao.salvar(funcionario);
 
-                System.out.println("Funcionário cadastrado: " + funcionario.getUsuario());
-
                 JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
                 clearFields();
 
@@ -343,6 +343,13 @@ public class CadastroFuncionarios extends JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void acaoBotaoFechar() {
+        dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
         }
     }
 
@@ -379,7 +386,6 @@ public class CadastroFuncionarios extends JFrame {
     private void inicializarFuncionarioDao() {
         try {
             this.funcionariosDao = new FuncionariosDao();
-            System.out.println("DAO de Funcionários inicializado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados para funcionários! Detalhes: " + e.getMessage(), "Erro de Conexão", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -390,7 +396,6 @@ public class CadastroFuncionarios extends JFrame {
     private void inicializarPerfilDao() {
         try {
             this.perfilDao = new PerfilDao();
-            System.out.println("DAO de Perfis inicializado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados para perfis! Detalhes: " + e.getMessage(), "Erro de Conexão", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -399,6 +404,6 @@ public class CadastroFuncionarios extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new CadastroFuncionarios().setVisible(true));
+        SwingUtilities.invokeLater(() -> new CadastroFuncionarios(null).setVisible(true));
     }
 }

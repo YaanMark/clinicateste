@@ -37,9 +37,11 @@ public class EditarPaciente extends JFrame {
 
     private PacienteDao pacienteDao;
     private Paciente pacienteAtual;
+    private JFrame parentFrame;
 
-    public EditarPaciente() {
+    public EditarPaciente(JFrame parentFrame) {
         super("Editar Paciente");
+        this.parentFrame = parentFrame;
 
         inicializarDao();
 
@@ -358,11 +360,14 @@ public class EditarPaciente extends JFrame {
 
     private void fecharAplicacao() {
         this.dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
+        }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new EditarPaciente().setVisible(true);
+            new EditarPaciente(null).setVisible(true);
         });
     }
 }

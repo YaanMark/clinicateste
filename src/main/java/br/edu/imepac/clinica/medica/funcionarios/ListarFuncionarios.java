@@ -16,11 +16,13 @@ public class ListarFuncionarios extends JFrame {
     private JTable tabelaFuncionarios;
     private DefaultTableModel tableModel;
     private FuncionariosDao funcionariosDao;
+    private JFrame parentFrame;
 
-    public ListarFuncionarios() {
+    public ListarFuncionarios(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         setTitle("Listar Funcionários");
         setSize(1000, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(true);
         setLayout(new BorderLayout());
@@ -64,7 +66,12 @@ public class ListarFuncionarios extends JFrame {
         panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         JButton botaoFechar = new JButton("Fechar");
         Estilo.estilizarBotao(botaoFechar);
-        botaoFechar.addActionListener(e -> dispose());
+        botaoFechar.addActionListener(e -> {
+            dispose();
+            if (parentFrame != null) {
+                parentFrame.setVisible(true);
+            }
+        });
         panel.add(botaoFechar);
 
         add(panel, BorderLayout.SOUTH);
@@ -74,7 +81,7 @@ public class ListarFuncionarios extends JFrame {
         tableModel.setRowCount(0);
         try {
             List<Funcionarios> funcionarios = funcionariosDao.listarTodos();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             for (Funcionarios f : funcionarios) {
                 tableModel.addRow(new Object[]{
                         f.getId(),
@@ -103,7 +110,7 @@ public class ListarFuncionarios extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new ListarFuncionarios().setVisible(true);
+            new ListarFuncionarios(null).setVisible(true);
         });
     }
 }

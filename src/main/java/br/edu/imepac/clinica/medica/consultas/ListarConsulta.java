@@ -11,6 +11,8 @@ import br.edu.imepac.clinica.medica.outros.Estilo;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.WindowAdapter; // Importar WindowAdapter
+import java.awt.event.WindowEvent;   // Importar WindowEvent
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -27,14 +29,28 @@ public class ListarConsulta extends JFrame {
 
     private Map<Integer, String> pacienteNomes;
     private Map<Integer, String> medicoNomes;
+    private JFrame parentFrame; // Adicionado para referência à tela pai
 
-    public ListarConsulta() {
+    // Construtor principal para ser chamado pela tela pai
+    public ListarConsulta(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
         setTitle("Listar Consultas");
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         getContentPane().setBackground(Estilo.COR_FUNDO);
+
+        // Adiciona um WindowListener para lidar com o fechamento da janela
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (ListarConsulta.this.parentFrame != null) {
+                    ListarConsulta.this.parentFrame.setVisible(true);
+                }
+            }
+        });
 
         try {
             consultaDao = new ConsultaDao();
@@ -128,10 +144,20 @@ public class ListarConsulta extends JFrame {
 
         JButton btnFechar = new JButton("Fechar");
         Estilo.estilizarBotao(btnFechar);
-        btnFechar.addActionListener(e -> dispose());
+        btnFechar.addActionListener(e -> {
+            dispose();
+            if (parentFrame != null) { // Adicionado para voltar à tela pai
+                parentFrame.setVisible(true);
+            }
+        });
         panelBotoes.add(btnFechar);
 
         add(panelBotoes, BorderLayout.SOUTH);
+    }
+
+    // Adicionado um construtor sem argumentos para compatibilidade com o main, se necessário
+    public ListarConsulta() {
+        this(null); // Chama o construtor principal passando null para parentFrame
     }
 
     private void carregarNomesReferencia() throws SQLException {
@@ -178,7 +204,7 @@ public class ListarConsulta extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new ListarConsulta().setVisible(true);
+            new ListarConsulta(null).setVisible(true); // Passa null para o parentFrame no main
         });
     }
 }

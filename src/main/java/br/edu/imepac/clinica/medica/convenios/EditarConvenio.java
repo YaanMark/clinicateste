@@ -20,12 +20,14 @@ public class EditarConvenio extends JFrame {
     private JTextArea txtDescricao;
     private JButton btnEditar;
     private JButton btnFechar;
+    private JFrame parentFrame;
 
-    public EditarConvenio() {
+    public EditarConvenio(JFrame parentFrame) {
         super("Editar Convênio");
+        this.parentFrame = parentFrame;
 
         setSize(500, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setBackground(Estilo.COR_FUNDO);
@@ -196,6 +198,9 @@ public class EditarConvenio extends JFrame {
 
     private void fecharAplicacao() {
         this.dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
+        }
     }
 
     private boolean validarDadosObrigatorios() {
@@ -207,7 +212,7 @@ public class EditarConvenio extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new EditarConvenio().setVisible(true);
+            new EditarConvenio(null).setVisible(true);
         });
     }
 }

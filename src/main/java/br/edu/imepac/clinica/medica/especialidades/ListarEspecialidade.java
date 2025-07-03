@@ -15,8 +15,10 @@ public class ListarEspecialidade extends JFrame {
     private JTable tabelaEspecialidades;
     private DefaultTableModel tableModel;
     private EspecialidadeDao especialidadeDao;
+    private JFrame parentFrame;
 
-    public ListarEspecialidade() {
+    public ListarEspecialidade(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         setTitle("Listar Especialidades");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -68,7 +70,6 @@ public class ListarEspecialidade extends JFrame {
         btnExcluir.addActionListener(e -> {
             int selectedRow = tabelaEspecialidades.getSelectedRow();
             if (selectedRow >= 0) {
-                // Safely retrieve the ID, handling potential Integer to Long cast
                 Object idObject = tableModel.getValueAt(selectedRow, 0);
                 Long especialidadeId;
 
@@ -77,7 +78,6 @@ public class ListarEspecialidade extends JFrame {
                 } else if (idObject instanceof Long) {
                     especialidadeId = (Long) idObject;
                 } else {
-                    // Fallback for other types, e.g., String
                     try {
                         especialidadeId = Long.parseLong(idObject.toString());
                     } catch (NumberFormatException ex) {
@@ -98,7 +98,7 @@ public class ListarEspecialidade extends JFrame {
                     try {
                         especialidadeDao.deletar(especialidadeId);
                         JOptionPane.showMessageDialog(this, "Especialidade excluída com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        carregarEspecialidades(); // Reload data after deletion
+                        carregarEspecialidades();
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(this, "Erro ao excluir especialidade: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                         ex.printStackTrace();
@@ -112,7 +112,12 @@ public class ListarEspecialidade extends JFrame {
 
         JButton btnFechar = new JButton("Fechar");
         Estilo.estilizarBotao(btnFechar);
-        btnFechar.addActionListener(e -> dispose());
+        btnFechar.addActionListener(e -> {
+            dispose();
+            if (parentFrame != null) {
+                parentFrame.setVisible(true);
+            }
+        });
         panelBotoes.add(btnFechar);
 
         add(panelBotoes, BorderLayout.SOUTH);
@@ -136,7 +141,7 @@ public class ListarEspecialidade extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new ListarEspecialidade().setVisible(true);
+            new ListarEspecialidade(null).setVisible(true);
         });
     }
 }

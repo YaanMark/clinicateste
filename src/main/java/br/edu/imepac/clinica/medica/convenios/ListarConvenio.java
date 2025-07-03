@@ -15,11 +15,14 @@ public class ListarConvenio extends JFrame {
     private JTable tabelaConvenio;
     private DefaultTableModel tableModel;
     private ConvenioDao convenioDao;
+    private JFrame parentFrame;
 
-    public ListarConvenio() {
+    public ListarConvenio(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
         setTitle("Listar Convênios");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(true);
         setLayout(new BorderLayout());
@@ -91,7 +94,7 @@ public class ListarConvenio extends JFrame {
                     try {
                         convenioDao.deletar(convenioId);
                         JOptionPane.showMessageDialog(this, "Convênio excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        carregarConvenios(); // Reload data after deletion
+                        carregarConvenios();
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(this, "Erro ao excluir convênio: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                         ex.printStackTrace();
@@ -105,7 +108,12 @@ public class ListarConvenio extends JFrame {
 
         JButton botaoFechar = new JButton("Fechar");
         Estilo.estilizarBotao(botaoFechar);
-        botaoFechar.addActionListener(e -> dispose());
+        botaoFechar.addActionListener(e -> {
+            dispose();
+            if (parentFrame != null) {
+                parentFrame.setVisible(true);
+            }
+        });
         panel.add(botaoFechar);
 
         add(panel, BorderLayout.SOUTH);
@@ -128,7 +136,7 @@ public class ListarConvenio extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new ListarConvenio().setVisible(true);
+            new ListarConvenio(null).setVisible(true);
         });
     }
 }

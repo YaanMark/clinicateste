@@ -45,8 +45,10 @@ public class EditarPerfil extends JFrame {
 
     private PerfilDao perfilDao;
     private Perfil perfilAtual;
+    private JFrame parentFrame;
 
-    public EditarPerfil() {
+    public EditarPerfil(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         inicializarPerfilDao();
 
         setTitle("Editar Perfil");
@@ -525,13 +527,16 @@ public class EditarPerfil extends JFrame {
 
     private void acaoBotaoFechar() {
         dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
+        }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new EditarPerfil().setVisible(true);
+                new EditarPerfil(null).setVisible(true);
             }
         });
     }

@@ -33,13 +33,16 @@ public class CadastroPaciente extends JFrame {
     private JButton botaoFechar;
 
     private PacienteDao pacienteDao;
+    private JFrame parentFrame;
 
-    public CadastroPaciente() {
+    public CadastroPaciente(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
         inicializarPacienteDao();
 
         setTitle("Cadastro de Pacientes");
         setSize(900, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -207,7 +210,7 @@ public class CadastroPaciente extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CadastroPaciente().setVisible(true);
+                new CadastroPaciente(null).setVisible(true);
             }
         });
     }
@@ -255,6 +258,9 @@ public class CadastroPaciente extends JFrame {
 
     private void acaoBotaoFechar() {
         dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
+        }
     }
 
     private boolean validarDadosObrigatorios() {

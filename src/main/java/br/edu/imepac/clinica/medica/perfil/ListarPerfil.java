@@ -15,10 +15,13 @@ public class ListarPerfil extends JFrame {
     private JTable tabelaPerfis;
     private DefaultTableModel tableModel;
     private PerfilDao perfilDao;
+    private JFrame parentFrame;
 
-    public ListarPerfil() {
+    public ListarPerfil(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
         setTitle("Listar Perfis");
-        setSize(1000, 700); // Increased size to accommodate more columns
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -49,7 +52,7 @@ public class ListarPerfil extends JFrame {
 
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex >= 2) { // All boolean columns
+                if (columnIndex >= 2) {
                     return Boolean.class;
                 }
                 return super.getColumnClass(columnIndex);
@@ -66,7 +69,7 @@ public class ListarPerfil extends JFrame {
 
         tabelaPerfis.setRowSelectionAllowed(true);
         tabelaPerfis.setColumnSelectionAllowed(false);
-        tabelaPerfis.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // Allow horizontal scrolling
+        tabelaPerfis.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         JScrollPane scrollPane = new JScrollPane(tabelaPerfis);
         scrollPane.getViewport().setBackground(Estilo.COR_FUNDO);
@@ -109,7 +112,7 @@ public class ListarPerfil extends JFrame {
 
                 if (confirmResult == JOptionPane.YES_OPTION) {
                     try {
-                        perfilDao.deletar(perfilId.intValue()); // PerfilDao expects int
+                        perfilDao.deletar(perfilId.intValue());
                         JOptionPane.showMessageDialog(this, "Perfil excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         carregarPerfis();
                     } catch (SQLException ex) {
@@ -125,7 +128,12 @@ public class ListarPerfil extends JFrame {
 
         JButton btnFechar = new JButton("Fechar");
         Estilo.estilizarBotao(btnFechar);
-        btnFechar.addActionListener(e -> dispose());
+        btnFechar.addActionListener(e -> {
+            dispose();
+            if (parentFrame != null) {
+                parentFrame.setVisible(true);
+            }
+        });
         panelBotoes.add(btnFechar);
 
         add(panelBotoes, BorderLayout.SOUTH);
@@ -156,7 +164,7 @@ public class ListarPerfil extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new ListarPerfil().setVisible(true);
+            new ListarPerfil(null).setVisible(true);
         });
     }
 }

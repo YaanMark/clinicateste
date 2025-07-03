@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter; // Importar WindowAdapter
+import java.awt.event.WindowEvent;   // Importar WindowEvent
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -38,8 +40,11 @@ public class EditarConsulta extends JFrame {
     private PacienteDao pacienteDao;
     private MedicoDao medicoDao;
     private Consulta consultaAtual;
+    private JFrame parentFrame; // Adicionado para referência à tela pai
 
-    public EditarConsulta() {
+    // Construtor principal para ser chamado pela tela pai
+    public EditarConsulta(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         inicializarDaos();
 
         setTitle("Editar Consulta");
@@ -47,6 +52,16 @@ public class EditarConsulta extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+
+        // Adiciona um WindowListener para lidar com o fechamento da janela
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (EditarConsulta.this.parentFrame != null) {
+                    EditarConsulta.this.parentFrame.setVisible(true);
+                }
+            }
+        });
 
         JPanel panel = new JPanel();
         panel.setBackground(Estilo.COR_FUNDO);
@@ -217,6 +232,11 @@ public class EditarConsulta extends JFrame {
 
         add(panel);
         toggleCamposEdicao(false);
+    }
+
+    // Adicionado um construtor sem argumentos para compatibilidade com o main, se necessário
+    public EditarConsulta() {
+        this(null); // Chama o construtor principal passando null para parentFrame
     }
 
     private JLabel createLabel(String text) {
@@ -401,6 +421,9 @@ public class EditarConsulta extends JFrame {
 
     private void acaoBotaoFechar() {
         dispose();
+        if (parentFrame != null) { // Adicionado para voltar à tela pai
+            parentFrame.setVisible(true);
+        }
     }
 
     private void carregarPacientes() {
@@ -430,6 +453,6 @@ public class EditarConsulta extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new EditarConsulta().setVisible(true));
+        SwingUtilities.invokeLater(() -> new EditarConsulta(null).setVisible(true)); // Passa null para o parentFrame no main
     }
 }

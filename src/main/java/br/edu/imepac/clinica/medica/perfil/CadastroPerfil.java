@@ -42,13 +42,15 @@ public class CadastroPerfil extends JFrame {
     private JButton botaoFechar;
 
     private PerfilDao perfilDao;
+    private JFrame parentFrame;
 
-    public CadastroPerfil() {
+    public CadastroPerfil(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         inicializarPerfilDao();
 
         setTitle("Cadastro de Perfis");
         setSize(700, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -327,7 +329,7 @@ public class CadastroPerfil extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CadastroPerfil().setVisible(true);
+                new CadastroPerfil(null).setVisible(true);
             }
         });
     }
@@ -375,6 +377,9 @@ public class CadastroPerfil extends JFrame {
 
     private void acaoBotaoFechar() {
         dispose();
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
+        }
     }
 
     private boolean validarDadosObrigatorios() {

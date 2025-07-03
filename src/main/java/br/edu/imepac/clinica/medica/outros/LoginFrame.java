@@ -107,7 +107,7 @@ public class LoginFrame extends JFrame {
             if (funcionarioLogado != null) {
 
                 SwingUtilities.invokeLater(() -> {
-                    new MainFrame(funcionarioLogado).setVisible(true); // Passa o funcionário logado
+                    new MainFrame(funcionarioLogado).setVisible(true);
                 });
 
             } else {

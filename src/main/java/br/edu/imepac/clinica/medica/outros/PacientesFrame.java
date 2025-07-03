@@ -3,9 +3,9 @@ package br.edu.imepac.clinica.medica.outros;
 import br.edu.imepac.clinica.medica.daos.PerfilDao;
 import br.edu.imepac.clinica.medica.entidades.Funcionarios;
 import br.edu.imepac.clinica.medica.entidades.Perfil;
-import br.edu.imepac.clinica.medica.medicos.CadastroMedico;
-import br.edu.imepac.clinica.medica.medicos.EditarMedico;
-import br.edu.imepac.clinica.medica.medicos.ListarMedico;
+import br.edu.imepac.clinica.medica.pacientes.CadastroPaciente;
+import br.edu.imepac.clinica.medica.pacientes.EditarPaciente;
+import br.edu.imepac.clinica.medica.pacientes.ListarPaciente;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,21 +13,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class MedicosFrame extends JFrame {
+public class PacientesFrame extends JFrame {
 
     private Funcionarios funcionarioLogado;
     private JFrame parentFrame;
 
-    public MedicosFrame(Funcionarios funcionario, JFrame parent) {
+    public PacientesFrame(Funcionarios funcionario, JFrame parent) {
         this.funcionarioLogado = funcionario;
         this.parentFrame = parent;
 
-        setTitle("Gerenciamento de Médicos");
+        setTitle("Gerenciamento de Pacientes");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(true);
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
 
         setLocationRelativeTo(null);
 
@@ -39,7 +38,7 @@ public class MedicosFrame extends JFrame {
         gbc.insets = new Insets(15, 15, 15, 15);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel titleLabel = new JLabel("MÉDICOS");
+        JLabel titleLabel = new JLabel("PACIENTES");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 30));
         titleLabel.setForeground(Estilo.COR_TEXTO);
         gbc.gridx = 0;
@@ -52,21 +51,21 @@ public class MedicosFrame extends JFrame {
 
         Dimension buttonSize = new Dimension(250, 80);
 
-        JButton cadastrarButton = new JButton("Cadastrar Médico");
+        JButton cadastrarButton = new JButton("Cadastrar Paciente");
         Estilo.estilizarBotao(cadastrarButton);
         cadastrarButton.setPreferredSize(buttonSize);
         gbc.gridx = 0;
         gbc.gridy = 1;
         mainPanel.add(cadastrarButton, gbc);
 
-        JButton editarButton = new JButton("Editar Médico");
+        JButton editarButton = new JButton("Editar Paciente");
         Estilo.estilizarBotao(editarButton);
         editarButton.setPreferredSize(buttonSize);
         gbc.gridx = 0;
         gbc.gridy = 2;
         mainPanel.add(editarButton, gbc);
 
-        JButton listarButton = new JButton("Listar Médicos");
+        JButton listarButton = new JButton("Listar Pacientes");
         Estilo.estilizarBotao(listarButton);
         listarButton.setPreferredSize(buttonSize);
         gbc.gridx = 0;
@@ -83,21 +82,21 @@ public class MedicosFrame extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                validarEAbrirTela("cadastrar_medico");
+                validarEAbrirTela("cadastrar_paciente");
             }
         });
 
         editarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                validarEAbrirTela("atualizar_medico");
+                validarEAbrirTela("atualizar_paciente");
             }
         });
 
         listarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                validarEAbrirTela("listar_medico");
+                validarEAbrirTela("listar_paciente");
             }
         });
 
@@ -118,30 +117,29 @@ public class MedicosFrame extends JFrame {
             boolean podeAcessar = false;
 
             switch (permissaoNecessaria) {
-                case "cadastrar_medico":
+                case "cadastrar_paciente":
                     podeAcessar = perfilDoFuncionario.isCadastrarFuncionario();
                     break;
-                case "atualizar_medico":
+                case "atualizar_paciente":
                     podeAcessar = perfilDoFuncionario.isAtualizarFuncionario();
                     break;
-                case "listar_medico":
+                case "listar_paciente":
                     podeAcessar = perfilDoFuncionario.isListarFuncionario();
                     break;
                 default:
                     podeAcessar = false;
             }
 
-
             if (podeAcessar) {
                 switch (permissaoNecessaria) {
-                    case "cadastrar_medico":
-                        new CadastroMedico(this).setVisible(true);
+                    case "cadastrar_paciente":
+                        new CadastroPaciente(this).setVisible(true);
                         break;
-                    case "atualizar_medico":
-                        new EditarMedico(this).setVisible(true);
+                    case "atualizar_paciente":
+                        new EditarPaciente(this).setVisible(true);
                         break;
-                    case "listar_medico":
-                        new ListarMedico(this).setVisible(true);
+                    case "listar_paciente":
+                        new ListarPaciente(this).setVisible(true);
                         break;
                 }
                 this.setVisible(false);

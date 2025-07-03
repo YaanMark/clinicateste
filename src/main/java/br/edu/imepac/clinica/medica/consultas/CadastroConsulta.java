@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter; // Importar WindowAdapter
+import java.awt.event.WindowEvent;   // Importar WindowEvent
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -34,15 +36,28 @@ public class CadastroConsulta extends JFrame {
     private ConsultaDao consultaDao;
     private PacienteDao pacienteDao;
     private MedicoDao medicoDao;
+    private JFrame parentFrame; // Adicionado para referência à tela pai
 
-    public CadastroConsulta() {
+    // Construtor principal para ser chamado pela tela pai
+    public CadastroConsulta(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         inicializarDaos();
 
         setTitle("Cadastro de Consultas");
         setSize(600, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Alterado para DISPOSE_ON_CLOSE
         setLocationRelativeTo(null);
         setResizable(false);
+
+        // Adiciona um WindowListener para lidar com o fechamento da janela
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (CadastroConsulta.this.parentFrame != null) {
+                    CadastroConsulta.this.parentFrame.setVisible(true);
+                }
+            }
+        });
 
         JPanel panel = new JPanel();
         panel.setBackground(Estilo.COR_FUNDO);
@@ -240,11 +255,16 @@ public class CadastroConsulta extends JFrame {
         add(panel);
     }
 
+    // Adicionado um construtor sem argumentos para compatibilidade com o main, se necessário
+    public CadastroConsulta() {
+        this(null); // Chama o construtor principal passando null para parentFrame
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CadastroConsulta().setVisible(true);
+                new CadastroConsulta(null).setVisible(true); // Passa null para o parentFrame no main
             }
         });
     }
@@ -302,6 +322,9 @@ public class CadastroConsulta extends JFrame {
 
     private void acaoBotaoFechar() {
         dispose();
+        if (parentFrame != null) { // Adicionado para voltar à tela pai
+            parentFrame.setVisible(true);
+        }
     }
 
     private boolean validarDadosObrigatorios() {

@@ -16,11 +16,14 @@ public class ListarPaciente extends JFrame {
     private JTable tabelaPacientes;
     private DefaultTableModel tableModel;
     private PacienteDao pacienteDao;
+    private JFrame parentFrame;
 
-    public ListarPaciente() {
+    public ListarPaciente(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
         setTitle("Listar Pacientes");
         setSize(1200, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(true);
         setLayout(new BorderLayout());
@@ -62,9 +65,58 @@ public class ListarPaciente extends JFrame {
         JPanel panel = new JPanel();
         panel.setBackground(Estilo.COR_FUNDO);
         panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+
+        JButton botaoExcluir = new JButton("Excluir");
+        Estilo.estilizarBotao(botaoExcluir);
+        botaoExcluir.addActionListener(e -> {
+            int selectedRow = tabelaPacientes.getSelectedRow();
+            if (selectedRow >= 0) {
+                Object idObject = tableModel.getValueAt(selectedRow, 0);
+                Long pacienteId;
+
+                if (idObject instanceof Integer) {
+                    pacienteId = ((Integer) idObject).longValue();
+                } else if (idObject instanceof Long) {
+                    pacienteId = (Long) idObject;
+                } else {
+                    try {
+                        pacienteId = Long.parseLong(idObject.toString());
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this, "Erro ao obter ID do paciente: Formato inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+                String pacienteNome = (String) tableModel.getValueAt(selectedRow, 1);
+                int confirmResult = JOptionPane.showConfirmDialog(this,
+                        "Tem certeza que deseja excluir o paciente: " + pacienteNome,
+                        "Confirmar Exclusão",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (confirmResult == JOptionPane.YES_OPTION) {
+                    try {
+                        pacienteDao.deletar(pacienteId);
+                        JOptionPane.showMessageDialog(this, "Paciente excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        carregarPacientes();
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(this, "Erro ao excluir paciente: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                        ex.printStackTrace();
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, selecione um paciente para excluir.", "Nenhuma Seleção", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        panel.add(botaoExcluir);
+
         JButton botaoFechar = new JButton("Fechar");
         Estilo.estilizarBotao(botaoFechar);
-        botaoFechar.addActionListener(e -> dispose());
+        botaoFechar.addActionListener(e -> {
+            dispose();
+            if (parentFrame != null) {
+                parentFrame.setVisible(true);
+            }
+        });
         panel.add(botaoFechar);
 
         add(panel, BorderLayout.SOUTH);
@@ -104,7 +156,7 @@ public class ListarPaciente extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new ListarPaciente().setVisible(true);
+            new ListarPaciente(null).setVisible(true);
         });
     }
 }
